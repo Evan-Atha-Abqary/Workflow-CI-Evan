@@ -6,14 +6,14 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report
 
 def train_model():
-    # [PERBAIKAN] Mengatur lokasi penyimpanan database MLflow agar tidak terpengaruh spasi pada nama user Windows
+    # Mengatur lokasi penyimpanan database MLflow
     mlflow.set_tracking_uri("sqlite:///mlflow.db")
     
-    # 1. Mengaktifkan MLflow Autologging (Mencatat metrik & parameter secara otomatis)
+    # 1. Mengaktifkan MLflow Autologging
     mlflow.autolog()
 
-    # Mengatur nama eksperimen di MLflow
-    mlflow.set_experiment("Credit_Risk_Modelling")
+    # [PERBAIKAN] Baris di bawah dinonaktifkan agar tidak bentrok dengan GitHub Actions
+    # mlflow.set_experiment("Credit_Risk_Modelling")
 
     # 2. Memuat Data Bersih hasil Preprocessing
     print("Memuat data bersih...")
@@ -34,7 +34,7 @@ def train_model():
         # Inisialisasi model Scikit-Learn
         model = RandomForestClassifier(n_estimators=100, random_state=42)
         
-        # Proses Pelatihan (Autolog akan otomatis merekam semuanya di sini)
+        # Proses Pelatihan
         model.fit(X_train, y_train)
         
         # Evaluasi Model
@@ -46,7 +46,7 @@ def train_model():
         print("\nClassification Report:")
         print(classification_report(y_test, predictions))
         
-        # Menampilkan Run ID untuk referensi di tahap selanjutnya
+        # Menampilkan Run ID untuk referensi
         print(f"\nSimpan Run ID ini jika diperlukan: {run.info.run_id}")
 
 if __name__ == "__main__":
